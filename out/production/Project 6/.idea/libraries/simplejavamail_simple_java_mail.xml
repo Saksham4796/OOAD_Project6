@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="simplejavamail.simple.java.mail" type="repository">
+    <properties maven-id="org.simplejavamail:simple-java-mail:8.3.3" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/simplejavamail/simple-java-mail/8.3.3/simple-java-mail-8.3.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/simplejavamail/core-module/8.3.3/core-module-8.3.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/sun/mail/jakarta.mail/2.0.1/jakarta.mail-2.0.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/sanctionco/jmail/jmail/1.4.1/jmail-1.4.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/bbottema/jetbrains-runtime-annotations/1.0.1/jetbrains-runtime-annotations-1.0.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/pivovarit/throwing-function/1.5.1/throwing-function-1.5.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.32/slf4j-api-1.7.32.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
