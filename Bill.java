@@ -19,7 +19,7 @@ public class Bill {
     // Here's a simple method that takes a Payment object and processes the payment
     // The Payment class would need to be defined elsewhere
     public void processPayment(Payment payment) {
-        payment.makeTransaction(totalAmount);
+        //payment.makeTransaction(totalAmount);
     }
 }
 

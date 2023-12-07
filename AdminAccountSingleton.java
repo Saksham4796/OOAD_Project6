@@ -1,3 +1,6 @@
+import Account.Account;
+import Reservation.VehicleReservation;
+
 public class AdminAccountSingleton extends Account {
     // Static instance for the singleton
     private static AdminAccountSingleton instance = null;
@@ -16,14 +19,14 @@ public class AdminAccountSingleton extends Account {
     }
 
     // Method to get vehicle reservations
-    public List<VehicleReservation> getVehicleReservations() {
+    //public List<VehicleReservation> getVehicleReservations() {
         // Implementation to get vehicle reservations
-        return new ArrayList<>(); // Placeholder return
+       // return new ArrayList<>(); // Placeholder return
     }
 
     // Other admin-specific methods can be added here
 
-    // Note: We inherit accountId, userId, password, status from Account
+    // Note: We inherit accountId, userId, password, status from Account.Account
     // along with its getters, setters, and methods
-}
+
 

@@ -1,4 +1,6 @@
-public class Account {
+package Account;
+
+public abstract class Account {
     private String accountId;
     private String userId;
     private String password;
