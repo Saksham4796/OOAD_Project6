@@ -1,6 +1,7 @@
 package Vehicles;
 
 import ParkingSpace.Parking;
+import VehicleFeatures.VehicleFeature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,11 @@ public abstract class Vehicle {
     private int manufacturingYear;
     private int mileage;
     private List<String> log;
+    private float cost;
 
+    //private List<String> features;
+
+    VehicleFeature features;
     public Vehicle(String licenseNum, String stockNum, int capacity, String barcode, boolean hasSunroof, String status,
                    String model,String make, int manufacturingYear, int mileage, Parking parking) {
         this.licenseNumber = licenseNum;
@@ -34,13 +39,27 @@ public abstract class Vehicle {
         this.mileage = mileage;
         this.log = new ArrayList<>();
         this.parking=parking;
+        //this.features=new ArrayList<>();
+        //this.cost=25;
     }
 
+    public void addFeature(VehicleFeature feature){
+        this.features=feature;
+    }
+    public void removeFeature(VehicleFeature feature){
+        this.features=null;
+    }
 
     // Abstract methods that subclasses need to implement
     public abstract void serviceVehicle();
     public abstract void returnVehicle();
+    public float getFeatureCost(){
+        return cost;
+    }
 
+    // List<String> getAdditionalFeatures(){
+        //return features;
+    //}
     // Getters and Setters for the attributes
     public String getLicensePlate() {
         return licenseNumber;

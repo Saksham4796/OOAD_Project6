@@ -5,6 +5,11 @@ import ObserverForNotification.SMSConfirmation;
 import ParkingSpace.Parking;
 import Reservation.VehicleReservation;
 import SearchVehicle.VehicleInventory;
+import VehicleFeatureDecorator.AppleCarPlay;
+import VehicleFeatureDecorator.TheftInsuranceFeature;
+import VehicleFeatureDecorator.WifiFeature;
+import VehicleFeatures.UserVehicleFeature;
+import VehicleFeatures.VehicleFeature;
 import Vehicles.Vehicle;
 
 import javax.swing.*;
@@ -14,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class VehicleSearchGUI extends JFrame {
@@ -27,7 +33,9 @@ public class VehicleSearchGUI extends JFrame {
     private JTextField licenseNumField;
     private JTextField startTimeField;
     private JTextField endTimeField;
-
+    ArrayList<Vehicle> searchResults;
+    VehicleFeature features;
+    Vehicle selectedVehicle;
     public VehicleSearchGUI() {
         setTitle("Vehicle Reservation System");
         setSize(800, 600);
@@ -117,7 +125,7 @@ public class VehicleSearchGUI extends JFrame {
     private void performSearch() {
         // Simulate searching and getting results
         String searchType = searchTypeField.getText();
-        ArrayList<Vehicle> searchResults = getSearchResults(searchType);
+        searchResults = getSearchResults(searchType);
 
         // Display the results in the table
         displayResults(searchResults);
@@ -178,6 +186,9 @@ public class VehicleSearchGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Perform logic to reserve the vehicle (displaying a message for simplicity)
+                boolean wifi = askForFeature("WiFi");
+                boolean theftInsurance = askForFeature("Theft Insurance");
+                boolean appleCarPlay = askForFeature("Apple CarPlay");
                 String message = "Vehicle Reserved:\n" +
                         "License Number: " + licenseNumField.getText() + "\n" +
                         "Start Time: " + startTimeField.getText() + "\n" +
@@ -186,13 +197,36 @@ public class VehicleSearchGUI extends JFrame {
                 JOptionPane.showMessageDialog(VehicleSearchGUI.this, message, "Reservation Complete", JOptionPane.INFORMATION_MESSAGE);
 
                 // Switch back to the main screen
-                cardLayout.show(cardPanel, "mainScreen");
+
                 String uniqueID = UUID.randomUUID().toString();
                 VehicleReservation reservation=new VehicleReservation();
                 reservation.addConfirmationObserver(new EmailConfirmation(reservation));
                 reservation.addConfirmationObserver(new SMSConfirmation(reservation));
                 reservation.makeReservation(uniqueID,startTimeField.getText(), endTimeField.getText(), licenseNumField.getText(),
                         new Parking(12,"X"), new Parking(12,"X"));
+
+                features=new UserVehicleFeature();
+                if (wifi) {
+                    addFeature("WiFi");
+                }
+                if (theftInsurance) {
+                    addFeature("Theft Insurance");
+                }
+                if (appleCarPlay) {
+                    addFeature("Apple CarPlay");
+                }
+
+                List<String> featureList=features.getAdditionalFeatures();
+                float cost=features.getFeatureCost();
+                String featureString="";
+                for (String feature:featureList){
+                    featureString+=feature+"\n";
+                }
+                String message2 = "Features Added:\n" +
+                        featureString + "\n" +
+                        "Total Cost: " + cost + "\n";
+                JOptionPane.showMessageDialog(VehicleSearchGUI.this, message2, "Features Added", JOptionPane.INFORMATION_MESSAGE);
+                cardLayout.show(cardPanel, "mainScreen");
             }
         });
 
@@ -206,12 +240,44 @@ public class VehicleSearchGUI extends JFrame {
         if (selectedRow != -1) {
             // Retrieve values from the selected row and populate the reservation screen
             licenseNumField.setText(resultTable.getValueAt(selectedRow, 0).toString());
+            for (Vehicle vehicle : searchResults) {
+                if (vehicle.getLicensePlate().equals(licenseNumField.getText())) {
+                    selectedVehicle = vehicle;
+                    break;
+
+                };
+            }
+
         } else {
             JOptionPane.showMessageDialog(this, "Please select a vehicle for reservation.", "Selection Error", JOptionPane.ERROR_MESSAGE);
             cardLayout.show(cardPanel, "searchScreen"); // Switch back to the search screen if no vehicle is selected
         }
     }
+    private boolean askForFeature(String featureName) {
+        int option = JOptionPane.showConfirmDialog(VehicleSearchGUI.this,
+                "Do you want to add " + featureName + "?", "Feature Selection",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
+        return option == JOptionPane.YES_OPTION;
+    }
+
+    // Method to perform the logic of adding a feature
+    private void addFeature(String featureName) {
+        // Add your logic here based on the selected feature
+
+
+        if (featureName=="Wifi"){
+            System.out.println("Wifi feature added");
+            features=new WifiFeature(features);
+        }
+        else if (featureName=="Theft Insurance"){
+            features=new TheftInsuranceFeature(features);
+        }
+        else if (featureName=="Apple CarPlay"){
+            features=new AppleCarPlay(features);
+        }
+        System.out.println("Added feature: " + featureName);
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

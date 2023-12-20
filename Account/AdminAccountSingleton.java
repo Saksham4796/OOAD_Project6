@@ -1,5 +1,4 @@
-import Account.Account;
-import Reservation.VehicleReservation;
+package Account;
 
 public class AdminAccountSingleton extends Account {
     // Static instance for the singleton
@@ -16,6 +15,13 @@ public class AdminAccountSingleton extends Account {
             instance = new AdminAccountSingleton(accountId, userId, password, status);
         }
         return instance;
+    }
+
+    public String getUserName(){
+        return userId;
+    }
+    public String getPassword(){
+        return password;
     }
 
     // Method to get vehicle reservations
